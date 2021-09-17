@@ -85,6 +85,11 @@ function DoChest(chestName, chestSlotsOri)
 	for slot, item in pairs(chestSlots) do
 		function DoSlot()
 			local itemDetail = chest.getItemDetail(slot)
+			if itemDetail ~= nil then
+				print(slot)
+				print(itemDetail.name)
+				print("---")
+			end
 			if (itemDetail == nil and item.name == "") or (itemDetail ~= nil and itemDetail.name == item.name and itemDetail.count == item.count) then
 				--nothing to do
 				return
