@@ -348,7 +348,7 @@ end
 MapInventory()
 --Load()
 
-rednet.open("back")
+rednet.open("back")--
 parallel.waitForAny(Network, ProcessQueue)
 
 Save()
