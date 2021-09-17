@@ -87,17 +87,17 @@ function DoChest(chestName, chestSlotsOri)
 		function DoSlot()
 			local itemDetail = chest.getItemDetail(slot)
 			if itemDetail ~= nil then
-				print("---")
-				print(slot)
-				print(itemDetail.name)
+				--print("---")
+				--print(slot)
+				--print(itemDetail.name)
 			end
 			if (itemDetail == nil and item.name == "") or (itemDetail ~= nil and itemDetail.name == item.name and itemDetail.count == item.count) then
 				--nothing to do
-				print("Do nothing")
+				--print("Do nothing")
 				return
 			elseif itemDetail ~= nil and (itemDetail.name ~= item.name or itemDetail.count > item.count) then
 				--put away
-				print("Put away")
+				--print("Put away")
 				if itemDetail.name ~= item.name then
 					Store(chestName, slot, 64)
 					if item.name == "" then
@@ -110,7 +110,7 @@ function DoChest(chestName, chestSlotsOri)
 			end
 			
 			if itemDetail == nil or itemDetail.count < item.count then
-				print("Get")
+				--print("Get")
 				if itemDetail == nil then
 					Get(item.name, item.count, chestName, slot)
 				else
@@ -130,5 +130,5 @@ end
 
 while true do
 	Cycle()
-	sleep(1)
+	sleep(0.2)
 end
