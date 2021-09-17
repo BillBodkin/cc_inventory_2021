@@ -2,7 +2,7 @@
 
 local storageComputerID = 18
 
-rednet.open("front")
+rednet.open("back")
 
 -- Will talk to interface
 local outChests = {
@@ -22,7 +22,7 @@ function Store(chest, slot, count)
 	print("Storing " .. tostring(count) .. " " .. chest .. " slot " .. tostring(slot))
 	rednet.send(storageComputerID, {
 		["action"] = "store",
-		["instructionRef"] = "outChestTopup"
+		["instructionRef"] = "outChestTopup",
 		["chest"] = chest,
 		["slot"] = slot,
 		["count"] = count
@@ -46,7 +46,7 @@ function Get(chest, slot, count)
 	print("Getting " .. tostring(count) .. " " ..chest .. " slot " .. tostring(slot))
 	rednet.send(storageComputerID, {
 		["action"] = "store",
-		["instructionRef"] = "outChestTopup"
+		["instructionRef"] = "outChestTopup",
 		["chest"] = chest,
 		["slot"] = slot,
 		["count"] = count
