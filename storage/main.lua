@@ -1,3 +1,5 @@
+-- wget https://raw.githubusercontent.com/BillBodkin/cc_inventory_2021/master/storage/main.lua storage.lua
+
 local chests  = { peripheral.find("ironchest:obsidian_chest") }
 local monitor =   peripheral.find("monitor")
 

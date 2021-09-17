@@ -1,3 +1,5 @@
+--wget https://raw.githubusercontent.com/BillBodkin/cc_inventory_2021/master/outChestsTopup/main.lua outChestsTopup.lua
+
 -- Will talk to interface
 local outChests = {
 	["enderstorage:ender_chest_3"] = {
@@ -19,7 +21,8 @@ function DoChest(chestName, chestSlotsOri)
 		if type(slot) == "number" then
 			chestSlots[slot] = item
 		elseif type(slot) == "string" then
-			for i = tonumber(string.gmatch(slot, '([^-]+)')[1]), tonumber(string.gmatch(slot, '([^-]+)')[2]) do
+			local a,b = s:match("(.+)-(.+)")
+			for i = tonumber(a), tonumber(b) do
 				chestSlots[i] = item
 			end
 		end
