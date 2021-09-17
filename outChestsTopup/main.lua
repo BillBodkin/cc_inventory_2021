@@ -106,7 +106,9 @@ function DoChest(chestName, chestSlotsOri)
 				else
 					Store(chestName, slot, itemDetail.count - item.count)
 				end
-				itemDetail = chest.getItemDetail(slot)--rescan
+				if item.name ~= "" then--dont rescan if not gonna put anything elser here after
+					itemDetail = chest.getItemDetail(slot)--rescan
+				end
 			end
 			
 			if itemDetail == nil or itemDetail.count < item.count then
