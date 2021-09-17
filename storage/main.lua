@@ -24,6 +24,16 @@ function Ternary(cond, T, F)
 	end
 end
 
+Log(msg)
+    print(msg)
+end
+
+Err(e)
+    Log("ERROR!")
+    Log(textutils.serialize(e))
+    error(e)
+end
+
 --- Inventory file ---
 
 function Save()
@@ -46,7 +56,7 @@ end
 function MapInventory()
 	inventory["items"] = {}
 	for chestName, chest in pairs(chests) do
-		print("Mapping inventory: " .. tostring(chestName) .. " / " .. tostring(table.getn(chests)))
+		Log("Mapping inventory: " .. tostring(chestName) .. " / " .. tostring(table.getn(chests)))
 		local chestItems = chest.list()
 		for slot = 1, chest.size() do
 			--local item = chest.getItemDetail(slot)
@@ -59,7 +69,7 @@ function MapInventory()
 		end
 	end
 	Save()
-	print("Inventory mapped")
+	Log("Inventory mapped")
 end
 
 -- Get all locations of an item
@@ -72,12 +82,28 @@ end
 
 -- Set a slot in the chests for where an item is
 function SetSlot(name, count, chestName, slot)
+    if count < 0 then
+        Err({
+            ["type"] = "Neg slot",
+            ["itemName"] = name,
+            ["itemCount"] = count,
+            ["chestName"] = chestName,
+            ["chestSlot"] = slot
+        })
+    end
+    
 	--set new value in items table
 	GetItemInv(name)
 	if inventory["items"][name][chestName] == nil then
 		inventory["items"][name][chestName] = {}
 	end
-	inventory["items"][name][chestName][slot] = count
+    
+    if name ~= "" and count == 0 then
+        inventory["items"][name][chestName][slot] = nil
+        inventory["items"][""][chestName][slot] = 0
+    else
+	    inventory["items"][name][chestName][slot] = count
+    end
 
 	--Save()
 end
@@ -101,7 +127,7 @@ end
 -- Take from outChest and store
 function Store(fromChest, fromSlot, toMove)
 	if CountEmptySlots() == 0 then
-		print("Inventory full")
+		Log("Inventory full")
 		return 0
 	end
 	local item = peripheral.wrap(fromChest).getItemDetail(fromSlot)
@@ -112,7 +138,7 @@ function Store(fromChest, fromSlot, toMove)
 			toMove = maxStackSize
 		end
 		toMove = math.min(item.count, toMove)
-		print("Storing " .. tostring(toMove) .. " " .. item.name)
+		Log("Storing " .. tostring(toMove) .. " " .. item.name)
         function StoreToSlot(slotItemName)
             local itemInv = GetItemInv(slotItemName)
             for chestName, chestSlots in pairs(itemInv) do
@@ -128,7 +154,7 @@ function Store(fromChest, fromSlot, toMove)
                             return true
                         end
                         if toMove < 0 then
-                            error({
+                            Err({
                                 ["type"] = "Over move",
                                 ["chestName"] = chestName,
                                 ["slotName"] = slotName,
@@ -149,7 +175,7 @@ function Store(fromChest, fromSlot, toMove)
         elseif StoreToSlot("") then
             return totalMoved
         else
-            error({
+            Err({
                 ["type"] = "Desync"
             })
         end
@@ -159,13 +185,14 @@ end
 
 -- Get from storage to outChest by name
 function Get(itemName, count, toChest, toSlot)
+    Log("Getting " .. tostring(count) .. " " .. itemName)
 	local totalMoved = 0
 	local itemInv = GetItemInv(itemName)--gets all slots where this item should be from file
 	for chestName, chestSlots in pairs(itemInv) do
 		for slotName, slotCount in pairs(chestSlots) do
 			local slotItemDetail = chests[chestName].getItemDetail(slotName)
 			if slotItemDetail == nil or slotItemDetail.name ~= itemName or slotItemDetail.count ~= slotCount then
-				error({
+				Err({
 					["type"] = "Slot desync",
 					["chestName"] = chestName,
 					["slotName"] = slotName,
@@ -177,23 +204,18 @@ function Get(itemName, count, toChest, toSlot)
 			end
 			local moved = chests[chestName].pushItems(toChest, slotName, count - totalMoved, toSlot)
 			totalMoved = totalMoved + moved
-			--print("Get item")
-			--print(itemName)
+			--Log("Get item")
+			--Log(itemName)
 			if moved == 0 then
 				--cant move any more as output slot full / diffrent item
 				return totalMoved
 			end
-			if moved == slotCount then
-				--slot now empty
-				SetSlot("", 0, chestName, slotName)
-			else
-				SetSlot(itemName, count - moved, chestName, slotName)
-			end
+			SetSlot(itemName, slotCount - moved, chestName, slotName)
 			if count == totalMoved then
 				return totalMoved
 			end
-			if count < totalMoved then
-				error({
+			if totalMoved > count then
+				Err({
 					["type"] = "Over move",
 					["chestName"] = chestName,
 					["slotName"] = slotName,
@@ -220,4 +242,10 @@ function ProcessQueue()
 	-- TODO
 end
 
-parallel.waitForAny(Network, ProcessQueue)
+
+MapInventory()
+--Load()
+--parallel.waitForAny(Network, ProcessQueue)
+--Store("ironchest:gold_chest_0", 1)
+--Get("minecraft:stick", 2, "ironchest:gold_chest_0", 5)
+Save()
