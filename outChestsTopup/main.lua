@@ -15,6 +15,12 @@ local outChests = {
 			["name"] = "",
 			["count"] = 0
 		}
+	},
+	["ironchest:diamond_chest_1"] = {
+		[1] = {
+			["name"] = "minecraft:coal",
+			["count"] = 1
+		}
 	}
 }
 
