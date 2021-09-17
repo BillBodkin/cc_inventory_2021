@@ -316,7 +316,7 @@ function ProcessQueue()
                 }, "invResp")
                 return
             end
-            if peripheral.wrap(msg["count"]) == nil then
+            if msg["count"] == nil then
                 msg["count"] = 1
             end
             local moved = 0
