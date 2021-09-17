@@ -99,7 +99,7 @@ function DoChest(chestName, chestSlotsOri)
 				--put away
 				--print("Put away")
 				if itemDetail.name ~= item.name then
-					Store(chestName, slot, 64)
+					Store(chestName, slot, itemDetail.count)
 					if item.name == "" then
 						return
 					end
