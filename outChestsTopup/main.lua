@@ -55,7 +55,7 @@ function Store(chest, slot, count)
 end
 
 function Get(itemName, itemCount, chest, slot)
-	print("Getting " .. tostring(itemCount) .. " " ..chest .. " slot " .. tostring(slot))
+	print("Getting " .. tostring(itemCount) .. " " .. chest .. " slot " .. tostring(slot))
 	rednet.send(storageComputerID, {
 		["action"] = "get",
 		["instructionRef"] = "outChestTopup",
@@ -68,7 +68,7 @@ function Get(itemName, itemCount, chest, slot)
 		local id, msg = rednet.receive("invResp")
 		if id == storageComputerID then
 			if msg["status"] == "success" then
-				print("Got " .. tostring(msg["moved"]) .. chest .. " slot " .. tostring(slot))
+				print("Got " .. tostring(msg["moved"]) .. " " .. chest .. " slot " .. tostring(slot))
 				return msg["moved"]
 			else
 				print("NOT Got " .. chest .. " slot " .. tostring(slot) .. " - " .. msg["message"])
