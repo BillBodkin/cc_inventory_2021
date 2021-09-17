@@ -21,7 +21,7 @@ function DoChest(chestName, chestSlotsOri)
 		if type(slot) == "number" then
 			chestSlots[slot] = item
 		elseif type(slot) == "string" then
-			local a,b = s:match("(.+)-(.+)")
+			local a,b = slot:match("(.+)-(.+)")
 			for i = tonumber(a), tonumber(b) do
 				chestSlots[i] = item
 			end
