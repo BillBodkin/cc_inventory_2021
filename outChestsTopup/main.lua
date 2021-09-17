@@ -42,14 +42,15 @@ function Store(chest, slot, count)
 	end
 end
 
-function Get(chest, slot, count)
+function Get(itemName, itemCount, chest, slot)
 	print("Getting " .. tostring(count) .. " " ..chest .. " slot " .. tostring(slot))
 	rednet.send(storageComputerID, {
 		["action"] = "get",
 		["instructionRef"] = "outChestTopup",
 		["chest"] = chest,
 		["slot"] = slot,
-		["count"] = count
+		["name"] = itemName,
+		["count"] = itemCount
 	}, "inv")
 	while true do
 		local id, msg = rednet.receive("invResp")
@@ -108,9 +109,9 @@ function DoChest(chestName, chestSlotsOri)
 			
 			if itemDetail == nil or itemDetail.count < item.count then
 				if itemDetail == nil then
-					Get(chestName, slot, item.count)
+					Get(item.name, item.count, chestName, slot)
 				else
-					Get(chestName, slot, item.count - itemDetail.count)
+					Get(item.name, item.count - itemDetail.count, chestName, slot)
 				end
 			end
 		end
