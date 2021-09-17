@@ -259,7 +259,7 @@ function ProcessQueue()
                     ["instructionRef"] = msg["instructionRef"],
                     ["status"] = "fail",
                     ["message"] = "Missing 'chest'"
-                })
+                }, "invResp")
                 return
             end
             if peripheral.wrap(msg["chest"]) == nil then
@@ -267,7 +267,7 @@ function ProcessQueue()
                     ["instructionRef"] = msg["instructionRef"],
                     ["status"] = "fail",
                     ["message"] = "Cant find 'chest'"
-                })
+                }, "invResp")
                 return
             end
             if msg["slot"] == nil then
@@ -275,7 +275,7 @@ function ProcessQueue()
                     ["instructionRef"] = msg["instructionRef"],
                     ["status"] = "fail",
                     ["message"] = "Missing 'slot'"
-                })
+                }, "invResp")
                 return
             end
             local moved = 0
@@ -288,7 +288,7 @@ function ProcessQueue()
                 ["instructionRef"] = msg["instructionRef"],
                 ["status"] = "success",
                 ["moved"] = moved
-            })
+            }, "invResp")
             return
         end
         if msg["action"] == "get" then
@@ -297,7 +297,7 @@ function ProcessQueue()
                     ["instructionRef"] = msg["instructionRef"],
                     ["status"] = "fail",
                     ["message"] = "Missing 'name'"
-                })
+                }, "invResp")
                 return
             end
             if msg["chest"] == nil then
@@ -305,7 +305,7 @@ function ProcessQueue()
                     ["instructionRef"] = msg["instructionRef"],
                     ["status"] = "fail",
                     ["message"] = "Missing 'chest'"
-                })
+                }, "invResp")
                 return
             end
             if peripheral.wrap(msg["chest"]) == nil then
@@ -313,7 +313,7 @@ function ProcessQueue()
                     ["instructionRef"] = msg["instructionRef"],
                     ["status"] = "fail",
                     ["message"] = "Cant find 'chest'"
-                })
+                }, "invResp")
                 return
             end
             if peripheral.wrap(msg["count"]) == nil then
@@ -329,7 +329,7 @@ function ProcessQueue()
                 ["instructionRef"] = msg["instructionRef"],
                 ["status"] = "success",
                 ["moved"] = moved
-            })
+            }, "invResp")
             return
         end
     end

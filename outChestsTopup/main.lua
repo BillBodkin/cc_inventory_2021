@@ -28,7 +28,7 @@ function Store(chest, slot, count)
 		["count"] = count
 	}, "inv")
 	while true do
-		local id, msg = rednet.receive("inv")
+		local id, msg = rednet.receive("invResp")
 		if id == storageComputerID then
 			if msg["status"] == "success" then
 				print("Stored " .. tostring(msg["moved"]) .. " " .. chest .. " slot " .. tostring(slot))
@@ -52,7 +52,7 @@ function Get(chest, slot, count)
 		["count"] = count
 	}, "inv")
 	while true do
-		local id, msg = rednet.receive("inv")
+		local id, msg = rednet.receive("invResp")
 		if id == storageComputerID then
 			if msg["status"] == "success" then
 				print("Got " .. tostring(msg["moved"]) .. chest .. " slot " .. tostring(slot))
@@ -113,6 +113,13 @@ function DoChest(chestName, chestSlotsOri)
 	end
 end
 
-for chestName, chestSlotsOri in pairs(outChests) do
-	DoChest(chestName, chestSlotsOri)
+function Cycle()
+	for chestName, chestSlotsOri in pairs(outChests) do
+		DoChest(chestName, chestSlotsOri)
+	end
+end
+
+while true do
+	Cycle()
+	sleep(1)
 end
