@@ -45,7 +45,7 @@ end
 function Get(chest, slot, count)
 	print("Getting " .. tostring(count) .. " " ..chest .. " slot " .. tostring(slot))
 	rednet.send(storageComputerID, {
-		["action"] = "store",
+		["action"] = "get",
 		["instructionRef"] = "outChestTopup",
 		["chest"] = chest,
 		["slot"] = slot,
