@@ -70,6 +70,7 @@ function MapInventory()
             end
         end
     end
+    GetItemInv("")
     Save()
     Log("Inventory mapped")
 end
@@ -98,6 +99,10 @@ function SetSlot(name, count, chestName, slot)
     GetItemInv(name)
     if inventory["items"][name][chestName] == nil then
         inventory["items"][name][chestName] = {}
+    end
+    
+    if inventory["items"][""][chestName] == nil then
+        inventory["items"][""][chestName] = {}
     end
     
     if name ~= "" and count == 0 then
