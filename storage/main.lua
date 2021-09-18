@@ -57,6 +57,7 @@ end
 
 function MapInventory()
     inventory["items"] = {}
+    inventory["partialStacks"] = {}--stacks that are not completly full or empty, should try to store or get from these first
     for chestName, chest in pairs(chests) do
         Log("Mapping inventory: " .. tostring(chestName) .. " / " .. tostring(table.getn(chests)))
         local chestItems = chest.list()
@@ -79,6 +80,11 @@ function GetItemInv(itemName)
     if inventory["items"][itemName] == nil then
         inventory["items"][itemName] = {}
     end
+    if itemName ~= "" then
+        if inventory["partialStacks"][itemName] == nil then
+            inventory["partialStacks"][itemName] = {}
+        end
+    end
     return inventory["items"][itemName]
 end
 
@@ -99,17 +105,31 @@ function SetSlot(name, count, chestName, slot)
     if inventory["items"][name][chestName] == nil then
         inventory["items"][name][chestName] = {}
     end
+    if inventory["partialStacks"][name][chestName] == nil then
+        inventory["partialStacks"][name][chestName] = {}
+    end
     
     GetItemInv("")
     if inventory["items"][""][chestName] == nil then
         inventory["items"][""][chestName] = {}
     end
     
-    if name ~= "" and count == 0 then
-        inventory["items"][name][chestName][slot] = nil
+    if count == 0 then
+        if name ~= "" and name ~= nil then
+            inventory["items"][name][chestName][slot] = nil
+            inventory["partialStacks"][name][chestName][slot] = nil
+        end
         inventory["items"][""][chestName][slot] = 0
     else
         inventory["items"][name][chestName][slot] = count
+        inventory["items"][""][chestName][slot] = nil
+        
+        local maxStackSize = chests[chestName].getItemLimit(slot)
+        if count < maxStackSize then
+            inventory["partialStacks"][name][chestName][slot] = true
+        else
+            inventory["partialStacks"][name][chestName][slot] = nil
+        end
     end
 
     --Save()
@@ -343,7 +363,7 @@ function ProcessQueue()
             ProcessItem(table.remove(Queue))
             sleep(0)
         else
-            sleep(1)
+            sleep(0.1)
         end
     end
 end
