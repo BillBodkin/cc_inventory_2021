@@ -57,6 +57,7 @@ end
 
 function MapInventory()
     inventory["items"] = {}
+    inventory["itemLimits"] = {}--max stack size per item type, interact with this via GetItemLimit(chestName, slot, itemName)
     inventory["partialStacks"] = {}--stacks that are not completly full or empty, should try to store or get from these first
     for chestName, chest in pairs(chests) do
         Log("Mapping inventory: " .. tostring(chestName) .. " / " .. tostring(table.getn(chests)))
@@ -88,6 +89,17 @@ function GetItemInv(itemName)
     return inventory["items"][itemName]
 end
 
+function GetItemLimit(chestName, slot, itemName)
+    if inventory["itemLimits"][itemName] == nil then
+        if chests[chestName] ~= nil then
+            inventory["itemLimits"][itemName] = chests[chestName].getItemLimit(slot)
+        else
+            inventory["itemLimits"][itemName] = peripheral.wrap(chestName).getItemLimit(slot)
+        end
+    end
+    return inventory["itemLimits"][itemName]
+end
+
 -- Set a slot in the chests for where an item is
 function SetSlot(name, count, chestName, slot)
     if count < 0 then
@@ -105,8 +117,10 @@ function SetSlot(name, count, chestName, slot)
     if inventory["items"][name][chestName] == nil then
         inventory["items"][name][chestName] = {}
     end
-    if inventory["partialStacks"][name][chestName] == nil then
-        inventory["partialStacks"][name][chestName] = {}
+    if name ~= "" then
+        if inventory["partialStacks"][name][chestName] == nil then
+            inventory["partialStacks"][name][chestName] = {}
+        end
     end
     
     GetItemInv("")
@@ -115,7 +129,7 @@ function SetSlot(name, count, chestName, slot)
     end
     
     if count == 0 then
-        if name ~= "" and name ~= nil then
+        if name ~= "" then
             inventory["items"][name][chestName][slot] = nil
             inventory["partialStacks"][name][chestName][slot] = nil
         end
@@ -124,11 +138,12 @@ function SetSlot(name, count, chestName, slot)
         inventory["items"][name][chestName][slot] = count
         inventory["items"][""][chestName][slot] = nil
         
-        local maxStackSize = chests[chestName].getItemLimit(slot)
-        if count < maxStackSize then
-            inventory["partialStacks"][name][chestName][slot] = true
-        else
-            inventory["partialStacks"][name][chestName][slot] = nil
+        if name ~= "" then
+            if count < GetItemLimit(chestName, slot, name) then
+                inventory["partialStacks"][name][chestName][slot] = true
+            else
+                inventory["partialStacks"][name][chestName][slot] = nil
+            end
         end
     end
 
@@ -160,7 +175,7 @@ function Store(fromChest, fromSlot, toMove)
     local item = peripheral.wrap(fromChest).getItemDetail(fromSlot)
     if item ~= nil then
         local totalMoved = 0
-        local maxStackSize = peripheral.wrap(fromChest).getItemLimit(fromSlot)
+        local maxStackSize = GetItemLimit(fromChest, fromSlot, item.name)--peripheral.wrap(fromChest).getItemLimit(fromSlot)
         if toMove == nil then
             toMove = maxStackSize
         end
