@@ -11,7 +11,7 @@ local outChests = {
 			["name"] = "minecraft:coal",
 			["count"] = 64
 		},
-		["2-26"] = {
+		["2-27"] = {
 			["name"] = "",
 			["count"] = 0
 		}
@@ -25,6 +25,12 @@ local outChests = {
 	["ironchest:diamond_chest_2"] = {
 		[1] = {
 			["name"] = "minecraft:cobblestone",
+			["count"] = 64
+		}
+	},
+	["quark:variant_chest_0"] = {
+		["1-27"] = {
+			["name"] = "minecraft:andesite",
 			["count"] = 64
 		}
 	}
