@@ -29,8 +29,18 @@ local outChests = {
 		}
 	},
 	["quark:variant_chest_0"] = {
-		["1-27"] = {
+		[1] = {
 			["name"] = "minecraft:andesite",
+			["count"] = 64
+		}
+	},
+	["turtle_5"] = {
+		[15] = {
+			["name"] = "minecraft:cobblestone",
+			["count"] = 64
+		},
+		[16] = {
+			["name"] = "minecraft:diorite",
 			["count"] = 64
 		}
 	}
