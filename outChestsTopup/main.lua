@@ -24,12 +24,12 @@ local outChests = {
 			["count"] = 64
 		}
 	},
-	["turtle_5"] = {
-		[15] = {
+	["quark:variant_chest_1"] = {--
+		[1] = {
 			["name"] = "minecraft:cobblestone",
 			["count"] = 64
 		},
-		[16] = {
+		[2] = {
 			["name"] = "minecraft:diorite",
 			["count"] = 64
 		}
