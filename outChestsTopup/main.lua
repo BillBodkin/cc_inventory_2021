@@ -6,16 +6,6 @@ rednet.open("back")
 
 -- Will talk to interface
 local outChests = {
-	["enderstorage:ender_chest_3"] = {
-		[1] = {
-			["name"] = "minecraft:coal",
-			["count"] = 64
-		},
-		["2-27"] = {
-			["name"] = "",
-			["count"] = 0
-		}
-	},
 	["ironchest:diamond_chest_1"] = {
 		[1] = {
 			["name"] = "minecraft:coal",
@@ -42,6 +32,16 @@ local outChests = {
 		[16] = {
 			["name"] = "minecraft:diorite",
 			["count"] = 64
+		}
+	},
+	["enderstorage:ender_chest_3"] = {
+		[1] = {
+			["name"] = "minecraft:coal",
+			["count"] = 64
+		},
+		["2-27"] = {
+			["name"] = "",
+			["count"] = 0
 		}
 	}
 }
