@@ -34,6 +34,16 @@ local outChests = {
 			["count"] = 64
 		}
 	},
+	["ironchest:diamond_chest_3"] = {
+		[1] = {
+			["name"] = "minecraft:cobblestone",
+			["count"] = 64
+		},
+		[2] = {
+			["name"] = "minecraft:diorite",
+			["count"] = 64
+		}
+	},
 	["enderstorage:ender_chest_3"] = {
 		[1] = {
 			["name"] = "minecraft:coal",
