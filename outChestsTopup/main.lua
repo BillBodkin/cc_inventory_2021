@@ -38,29 +38,7 @@ local outChests = {
 			["count"] = 64,
 			["min"] = 32,
 		}
-	},
-	["ironchest:diamond_chest_3"] = {
-		[1] = {
-			["name"] = "minecraft:cobblestone",
-			["count"] = 64,
-			["min"] = 32,
-		},
-		[2] = {
-			["name"] = "minecraft:diorite",
-			["count"] = 64,
-			["min"] = 32,
-		},
-		[3] = {
-			["name"] = "minecraft:granite",
-			["count"] = 64,
-			["min"] = 32,
-		},
-		[4] = {
-			["name"] = "minecraft:dirt",
-			["count"] = 64,
-			["min"] = 32,
-		}
-	},
+	}
 	["enderstorage:ender_chest_3"] = {
 		[1] = {
 			["name"] = "minecraft:coal",
@@ -70,6 +48,34 @@ local outChests = {
 		["2-27"] = {
 			["name"] = "",
 			["count"] = 0
+		}
+	}
+	["minecraft:hopper_1"] = {
+		[1] = {
+			["name"] = "minecraft:cobblestone",
+			["count"] = 64,
+			["min"] = 4,
+		}
+	},
+	["minecraft:hopper_2"] = {
+		[1] = {
+			["name"] = "minecraft:diorite",
+			["count"] = 64,
+			["min"] = 4,
+		}
+	},
+	["minecraft:hopper_3"] = {
+		[1] = {
+			["name"] = "minecraft:granite",
+			["count"] = 64,
+			["min"] = 4,
+		}
+	},
+	["minecraft:hopper_4"] = {
+		[1] = {
+			["name"] = "minecraft:dirt",
+			["count"] = 64,
+			["min"] = 4,
 		}
 	}
 }
