@@ -9,45 +9,63 @@ local outChests = {
 	["ironchest:diamond_chest_1"] = {
 		[1] = {
 			["name"] = "minecraft:coal",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
 		}
 	},
 	["ironchest:diamond_chest_2"] = {
 		[1] = {
 			["name"] = "minecraft:cobblestone",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
 		}
 	},
 	["quark:variant_chest_0"] = {
 		[1] = {
 			["name"] = "minecraft:andesite",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
 		}
 	},
 	["quark:variant_chest_1"] = {--
 		[1] = {
 			["name"] = "minecraft:cobblestone",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
 		},
 		[2] = {
 			["name"] = "minecraft:diorite",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
 		}
 	},
 	["ironchest:diamond_chest_3"] = {
 		[1] = {
 			["name"] = "minecraft:cobblestone",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
 		},
 		[2] = {
 			["name"] = "minecraft:diorite",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
+		},
+		[3] = {
+			["name"] = "minecraft:granite",
+			["count"] = 64,
+			["min"] = 32,
+		},
+		[4] = {
+			["name"] = "minecraft:dirt",
+			["count"] = 64,
+			["min"] = 32,
 		}
 	},
 	["enderstorage:ender_chest_3"] = {
 		[1] = {
 			["name"] = "minecraft:coal",
-			["count"] = 64
+			["count"] = 64,
+			["min"] = 32,
 		},
 		["2-27"] = {
 			["name"] = "",
@@ -133,7 +151,7 @@ function DoChest(chestName, chestSlotsOri)
 				--nothing to do
 				--print("Do nothing")
 				return
-			elseif itemDetail ~= nil and (itemDetail.name ~= item.name or itemDetail.count > item.count) then
+			elseif itemDetail ~= nil and (itemDetail.name ~= item.name or (itemDetail.count > item.count and (item.max == nil or itemDetail.count > item.max))) then
 				--put away
 				--print("Put away")
 				if itemDetail.name ~= item.name then
@@ -149,7 +167,7 @@ function DoChest(chestName, chestSlotsOri)
 				end
 			end
 			
-			if itemDetail == nil or itemDetail.count < item.count then
+			if itemDetail == nil or (itemDetail.count < item.count and (item.min == nil or itemDetail.count < item.min)) then
 				--print("Get")
 				if itemDetail == nil then
 					Get(item.name, item.count, chestName, slot)
