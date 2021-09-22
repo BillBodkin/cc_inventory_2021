@@ -388,7 +388,7 @@ end
 MapInventory()
 --Load()
 
-rednet.open("back")--
+rednet.open("modem_0")--back
 parallel.waitForAny(Network, ProcessQueue)
 
 Save()

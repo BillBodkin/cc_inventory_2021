@@ -2,7 +2,7 @@
 
 local storageComputerID = 18
 
-rednet.open("back")
+rednet.open("modem_0")--back
 
 -- Will talk to interface
 local outChests = {
