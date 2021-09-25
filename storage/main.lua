@@ -59,6 +59,7 @@ function MapInventory()
     inventory["items"] = {}
     inventory["itemLimits"] = {}--max stack size per item type, interact with this via GetItemLimit(chestName, slot, itemName)
     inventory["partialStacks"] = {}--stacks that are not completly full or empty, should try to store or get from these first
+    inventory["itemCounts"] = {}
     for chestName, chest in pairs(chests) do
         Log("Mapping inventory: " .. tostring(chestName) .. " / " .. tostring(table.getn(chests)))
         local chestItems = chest.list()
@@ -69,6 +70,7 @@ function MapInventory()
                 SetSlot("", 0, chestName, slot)
             else
                 SetSlot(item.name, item.count, chestName, slot)
+                AddItemCount(item.name, item.count)
             end
         end
     end
@@ -85,8 +87,16 @@ function GetItemInv(itemName)
         if inventory["partialStacks"][itemName] == nil then
             inventory["partialStacks"][itemName] = {}
         end
+        if inventory["itemCounts"][itemName] == nil then
+            inventory["itemCounts"][itemName] = 0
+        end
     end
     return inventory["items"][itemName]
+end
+
+function AddItemCount(itemName, count)
+    GetItemInv(itemName)
+    inventory["itemCounts"][itemName] = inventory["itemCounts"][itemName] + count
 end
 
 function GetItemLimit(chestName, slot, itemName)
@@ -214,9 +224,11 @@ function Store(fromChest, fromSlot, toMove)
         end
         if StoreToSlot(item.name) then
             Log("Stored " .. tostring(totalMoved) .. " " .. item.name)
+            AddItemCount(item.name, totalMoved)
             return totalMoved
         elseif StoreToSlot("") then
             Log("Stored " .. tostring(totalMoved) .. " " .. item.name)
+            AddItemCount(item.name, totalMoved)
             return totalMoved
         else
             Err({
@@ -254,11 +266,13 @@ function Get(itemName, count, toChest, toSlot)
             if moved == 0 then
                 --cant move any more as output slot full / diffrent item
                 Log("Got " .. tostring(totalMoved) .. " " .. itemName)
+                AddItemCount(itemName, -totalMoved)
                 return totalMoved
             end
             SetSlot(itemName, slotCount - moved, chestName, slotName)
             if count == totalMoved then
                 Log("Got " .. tostring(totalMoved) .. " " .. itemName)
+                AddItemCount(itemName, -totalMoved)
                 return totalMoved
             end
             if totalMoved > count then
@@ -369,6 +383,26 @@ function ProcessQueue()
                 ["instructionRef"] = msg["instructionRef"],
                 ["status"] = "success",
                 ["moved"] = moved
+            }, "invResp")
+            return
+        end
+        if msg["action"] == "count" then
+            if msg["name"] == nil then
+                rednet.send(msg["fromID"], {
+                    ["instructionRef"] = msg["instructionRef"],
+                    ["status"] = "fail",
+                    ["message"] = "Missing 'name'"
+                }, "invResp")
+                return
+            end
+            local count = inventory["itemCounts"][msg["name"]]
+            if count == nil then
+                count = 0
+            end
+            rednet.send(msg["fromID"], {
+                ["instructionRef"] = msg["instructionRef"],
+                ["status"] = "success",
+                ["count"] = count
             }, "invResp")
             return
         end
