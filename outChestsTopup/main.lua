@@ -77,7 +77,7 @@ local outChests = {
 			["count"] = 64,
 			["min"] = 4,
 		}
-	}
+	},
 	["minecraft:furnace_2"] = {
 		[1] = {
 			["name"] = "minecraft:wet_sponge",
