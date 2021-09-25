@@ -78,6 +78,22 @@ local outChests = {
 			["min"] = 4,
 		}
 	}
+	["minecraft:furnace_2"] = {
+		[1] = {
+			["name"] = "minecraft:wet_sponge",
+			["count"] = 64,
+			["min"] = 8,
+		},
+		[2] = {
+			["name"] = "minecraft:coal",
+			["count"] = 64,
+			["min"] = 8,
+		},
+		[3] = {
+			["name"] = "",
+			["count"] = 0
+		}
+	}
 }
 
 function Store(chest, slot, count)
