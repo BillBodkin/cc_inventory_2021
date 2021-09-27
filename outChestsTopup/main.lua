@@ -50,6 +50,12 @@ local outChests = {
 			["count"] = 0
 		}
 	},
+	["enderstorage:ender_chest_7"] = {
+		["1-27"] = {
+			["name"] = "",
+			["count"] = 0
+		}
+	},
 	["minecraft:hopper_1"] = {
 		[1] = {
 			["name"] = "minecraft:cobblestone",
