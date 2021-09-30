@@ -84,9 +84,41 @@ local outChests = {
 			["min"] = 4,
 		}
 	},
-	["minecraft:furnace_2"] = {
+	["minecraft:furnace_3"] = {
 		[1] = {
 			["name"] = "minecraft:wet_sponge",
+			["count"] = 64,
+			["min"] = 8,
+		},
+		[2] = {
+			["name"] = "minecraft:coal",
+			["count"] = 64,
+			["min"] = 8,
+		},
+		[3] = {
+			["name"] = "",
+			["count"] = 0
+		}
+	},
+	["minecraft:furnace_4"] = {
+		[1] = {
+			["name"] = "minecraft:iron_ore",
+			["count"] = 64,
+			["min"] = 8,
+		},
+		[2] = {
+			["name"] = "minecraft:coal",
+			["count"] = 64,
+			["min"] = 8,
+		},
+		[3] = {
+			["name"] = "",
+			["count"] = 0
+		}
+	},
+	["minecraft:furnace_5"] = {
+		[1] = {
+			["name"] = "minecraft:gold_ore",
 			["count"] = 64,
 			["min"] = 8,
 		},
