@@ -139,9 +139,10 @@ function Dump()
 	
 	DumpChest()
 	for i = 1, 16 do
-		if turtle.getItemCount(i) > 0
-		turtle.select(i)
-		turtle.drop(64)
+		if turtle.getItemCount(i) > 0 then
+			turtle.select(i)
+			turtle.drop(64)
+		end
 	end
 	turtle.select(1)
 	DumpChest()
