@@ -53,7 +53,7 @@ function Store(chest, slot, count)
 		["count"] = count
 	}, "inv")
 	while true do
-		local id, msg = rednet.receive("invResp")
+		local id, msg = rednet.receive("invResp", 4)
 		if not id then
 			print("Timed out")
 			break
@@ -82,7 +82,7 @@ function Get(itemName, itemCount, chest, slot)
 		["count"] = itemCount
 	}, "inv")
 	while true do
-		local id, msg = rednet.receive("invResp")
+		local id, msg = rednet.receive("invResp", 4)
 		if not id then
 			print("Timed out")
 			break
@@ -109,7 +109,7 @@ function Count(itemName)
             ["name"] = itemName
         }, "inv")
         while true do
-            local id, msg = rednet.receive("invResp", 2)
+            local id, msg = rednet.receive("invResp", 4)
             if not id then
                 print("Timed out")
                 break
