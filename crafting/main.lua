@@ -1,6 +1,6 @@
 -- Will interact with storage and machine
 
-local localName = "turtle_13"
+local chestName = "quark:variant_chest_2"
 local storageComputerID = 18
 
 rednet.open("modem_0")
@@ -67,7 +67,7 @@ function Store(chest, slot, count)
 end
 
 function Get(itemName, itemCount, chest, slot)
-	print("Getting " .. tostring(itemCount) .. " " .. chest .. " slot " .. tostring(slot))
+	print("Getting " .. itemName .. " x" .. tostring(itemCount) .. " " .. chest .. " slot " .. tostring(slot))
 	rednet.send(storageComputerID, {
 		["action"] = "get",
 		["instructionRef"] = "crafting",
@@ -121,19 +121,30 @@ function Count(itemName)
 end
 
 function Dump()
-	for i = 1, 16 do
-		while true do
-			local ic = turtle.getItemCount(i)
-			if ic > 0 then
-				if Store(localName, i, ic) == ic then
+	function DumpChest()
+		for i = 1, 27 do
+			while true do
+				local ic = turtle.getItemCount(i)
+				if ic > 0 then
+					if Store(chestName, i, ic) == ic then
+						break
+					end
+					sleep(2)
+				else
 					break
 				end
-				sleep(2)
-			else
-				break
 			end
 		end
 	end
+	
+	DumpChest()
+	for i = 1, 16 do
+		if turtle.getItemCount(i) > 0
+		turtle.select(i)
+		turtle.drop(64)
+	end
+	turtle.select(1)
+	DumpChest()
 end
 
 function CountMissingIngredients(recipe)
@@ -185,8 +196,11 @@ function CraftRecipe(recipe, count, recursive)
 	end
 	
 	for k, v in pairs(recipe["in"]) do
-		local got = Get(v.name, v.count * maxCanCraft, localName, CraftingTableToTurtleSlot(k))
+		local got = Get(v.name, v.count * maxCanCraft, chestName, 1)
+		turtle.select(CraftingTableToTurtleSlot(k))
+		turtle.suck(64)
 	end
+	turtle.select(1)
 	
 	turtle.craft()
 	
@@ -208,7 +222,7 @@ function CraftRecipe(recipe, count, recursive)
 end
 
 function CraftItem(itemName, count, recursive)
-	print("Crafting item " .. itemName .. " x" .. tostring(itemCount))
+	print("Crafting item " .. itemName .. " x" .. tostring(count))
 	if recipes[itemName] == nil or recipes[itemName] == {} then
 		return nil
 	end
