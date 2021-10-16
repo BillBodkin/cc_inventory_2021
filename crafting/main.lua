@@ -1,6 +1,9 @@
 -- Will interact with storage and machine
 
 local localName = "turtle_13"
+local storageComputerID = 18
+
+rednet.open("modem_0")
 
 local recipes = {
 	["minecraft:torch"] = {
