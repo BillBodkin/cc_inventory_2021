@@ -1,9 +1,10 @@
 -- Will interact with storage and machine
 
+local chest = peripheral.wrap("front")
 local chestName = "quark:variant_chest_2"
 local storageComputerID = 18
 
-rednet.open("modem_0")
+rednet.open("right")
 
 local recipes = {
 	["minecraft:torch"] = {
@@ -124,7 +125,11 @@ function Dump()
 	function DumpChest()
 		for i = 1, 27 do
 			while true do
-				local ic = turtle.getItemCount(i)
+				local itemDetail = chest.getItemDetail(i)
+				if itemDetail == nil then
+					break
+				end
+				local ic = itemDetail.count
 				if ic > 0 then
 					if Store(chestName, i, ic) == ic then
 						break
