@@ -1,4 +1,4 @@
--- Will interact with storage and machine
+-- Interacts with storage and machine
 
 local chest = peripheral.wrap("front")
 local chestName = "quark:variant_chest_2"
@@ -54,6 +54,10 @@ function Store(chest, slot, count)
 	}, "inv")
 	while true do
 		local id, msg = rednet.receive("invResp")
+		if not id then
+			print("Timed out")
+			break
+		end
 		if id == storageComputerID then
 			if msg["status"] == "success" then
 				print("Stored " .. tostring(msg["moved"]) .. " " .. chest .. " slot " .. tostring(slot))
@@ -79,6 +83,10 @@ function Get(itemName, itemCount, chest, slot)
 	}, "inv")
 	while true do
 		local id, msg = rednet.receive("invResp")
+		if not id then
+			print("Timed out")
+			break
+		end
 		if id == storageComputerID then
 			if msg["status"] == "success" then
 				print("Got " .. tostring(msg["moved"]) .. " " .. chest .. " slot " .. tostring(slot))
