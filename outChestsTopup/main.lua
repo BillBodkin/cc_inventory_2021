@@ -57,18 +57,18 @@ local outChests = {
 		}
 	},
 	["minecraft:hopper_1"] = {
-		[1] = {
+		--[[[1] = {
 			["name"] = "minecraft:cobblestone",
 			["count"] = 64,
 			["min"] = 4,
-		}
+		}]]--
 	},
 	["minecraft:hopper_2"] = {
-		[1] = {
+		--[[[1] = {
 			["name"] = "minecraft:diorite",
 			["count"] = 64,
 			["min"] = 4,
-		}
+		}]]--
 	},
 	["minecraft:hopper_3"] = {
 		[1] = {
