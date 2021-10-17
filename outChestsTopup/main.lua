@@ -82,6 +82,11 @@ local outChests = {
 			["name"] = "minecraft:dirt",
 			["count"] = 64,
 			["min"] = 4,
+		},
+		[2] = {
+			["name"] = "minecraft:netherrack",
+			["count"] = 64,
+			["min"] = 4,
 		}
 	},
 	["minecraft:furnace_3"] = {

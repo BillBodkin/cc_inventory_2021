@@ -101,10 +101,17 @@ end
 
 function GetItemLimit(chestName, slot, itemName)
     if inventory["itemLimits"][itemName] == nil then
+        local itemDetail = nil
         if chests[chestName] ~= nil then
-            inventory["itemLimits"][itemName] = chests[chestName].getItemLimit(slot)
+            itemDetail = chests[chestName].getItemDetail(slot)
         else
-            inventory["itemLimits"][itemName] = peripheral.wrap(chestName).getItemLimit(slot)
+            itemDetail = peripheral.wrap(chestName).getItemDetail(slot)
+        end
+        
+        if itemDetail ~= nil then
+            inventory["itemLimits"][itemName] = itemDetail.maxCount
+        else
+            return 64
         end
     end
     return inventory["itemLimits"][itemName]
@@ -222,7 +229,7 @@ function Store(fromChest, fromSlot, toMove)
             end
             return false
         end
-        if StoreToSlot(item.name) then
+        if maxStackSize ~= 1 and StoreToSlot(item.name) then
             Log("Stored " .. tostring(totalMoved) .. " " .. item.name)
             AddItemCount(item.name, totalMoved)
             return totalMoved
@@ -288,8 +295,9 @@ function Get(itemName, count, toChest, toSlot)
             end
         end
     end
-    Log("Got 0 " .. itemName)
-    return 0
+    Log("Got " .. tostring(totalMoved) .. " " .. itemName)
+    AddItemCount(itemName, -totalMoved)
+    return totalMoved
 end
 
 --- Queue ---
